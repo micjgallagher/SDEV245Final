@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import argparse
 import re
+import os
 
 from enum import Enum, auto
 
@@ -27,13 +29,12 @@ def detect_string_constant_secret(line: str) -> SecretType | None:
         SecretType.API_KEY: [
             r"['\"\`]AKIA[0-9A-Z]{16}['\"\`]",  # AWS Access Key ID
             r"['\"\`]AIza[0-9A-Za-z\-_]{35}['\"\`]",  # Google Cloud API Key
-            r"(?i)(api[_\-]?key)[\s]*[:=][\s]*['\"\`][a-zA-Z0-9_\-]{10,}['\"\`]"  # Generic API key assignment
         ],
 
         SecretType.TOKEN: [
-            r"['\"\`]gh[pousr]_[a-zA-Z0-9]{36}['\"\`]",  # GitHub Token
-            r"['\"\`]xox[baprs]-[0-9a-zA-Z\-]+['\"\`]",  # Slack Token
-            r"(?i)(token|bearer)[\s]*[:=][\s]*['\"\`][a-zA-Z0-9_\-\.]+['\"\`]"  # Generic token assignment
+            "^ ghp_[a - zA - Z0 - 9]{36}$",  #Github Token
+            "^ ghu_[a - zA - Z0 - 9]{36}$", #Github User to server access token
+            "[0 - 9a - f]{32} - us[0 - 9]{1, 2}" #Mailchimp access token
         ],
 
         SecretType.PASSWORD: [
@@ -53,7 +54,7 @@ def scan(text : str):
     #Returns array of strings as output
 
     detected_lines = []
-    lines = text.split()
+    lines = text.splitlines()
 
     for line_num, line in enumerate(lines):
         result = detect_string_constant_secret(line)
@@ -63,6 +64,7 @@ def scan(text : str):
     return detected_lines
 
 def scan_file(filename):
+    print()
     try:
         with open(filename) as file:
             content = file.read()
@@ -78,10 +80,32 @@ def scan_file(filename):
     except FileNotFoundError:
         print(filename, "does not exist")
 
+def scan_path(path, recurse = False):
+    print()
+    if os.path.isdir(path):
+        print("Scanning directory", path)
+        dir_contents = os.listdir(path)
+        for item in dir_contents:
+            item_path = os.path.join(path, item)
+            if recurse and os.path.isdir(item_path):
+                scan_path(item_path)
+            elif os.path.isfile(item_path):
+                scan_file(item_path)
+
+    elif os.path.isfile(path):
+        scan_file(path)
+    else:
+        print("ERROR INVALID PATH")
 
 
 def main():
-    scan_file("example.txt")
+    parser = argparse.ArgumentParser()
+    # parser.add_argument("help")
+    parser.add_argument("path", help="Path tool will search for sercrets")
+    parser.add_argument("-r", "--recurse", help = "Check subdirectories", action="store_true")
+    args = parser.parse_args() #This line can
+    # print(args.echo)
+    scan_path(args.path, recurse=args.recurse)
 
 
 if __name__ == '__main__':

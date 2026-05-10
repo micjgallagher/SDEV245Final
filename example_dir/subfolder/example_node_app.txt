@@ -1,0 +1,18 @@
+// FILE: app.js
+// Example file containing RSA Private Key, AWS API Key, and a password.
+
+const AWS_ACCESS = "AKIA1234567890ABCDEF";
+
+const server_config = {
+    // Matches generic password assignment
+    pwd: "super_secure_admin_pass",
+    port: 8080
+};
+
+// Matches RSA Private Key
+const rsa_key = `-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEA...
+-----END RSA PRIVATE KEY-----`;
+
+// Matches Github Token (with the leading space as requested by the regex)
+const gh_token = " ghp_aBcD1234eFgH5678iJkL9012mNoP3456qRsT";

@@ -1,65 +1,14 @@
-// ==========================================
-// FILE: config.js (JavaScript / Node.js)
-// ==========================================
+# FILE: .env-example
+# Example file containing Mailchimp token, AWS Key, and a password
 
-// --- SAFE: Using environment variables or external sources ---
-const db_password = process.env.DB_PASSWORD;
-const aws_access_key = getSecret("AWS_ACCESS_KEY");
-const GITHUB_TOKEN = config.tokens.github;
-const slackBotToken = req.headers['x-slack-token'];
-let user_pwd = hash(user.password);
-const api_key = "placeholder"; // Too short to trigger generic API key regex
+# Matches generic password assignment
+password = "db_production_password"
 
-// --- DANGER: Hardcoded Secrets ---
-const hardcoded_db_password = "SuperSecretPassword123!";
-const aws_dev_key = "AKIAIOSFODNN7EXAMPLE";
-const google_maps_api = `AIzaSyB9_x-FAKE_API_KEY_DATA_HERE_987654`;
-const dev_github_token = 'ghp_82A9c42j29d89ceqlg02816922vjla339Xkl';
-const my_slack_bot = "xoxb-9876543210-1234567890123-X9y8Z7w6V5u4T3s2R1q0";
-const generic_api_key = "xYz123AbC456DeF789GhI012JkL";
+# Matches AWS Access Key ID
+aws_dev_key = 'AKIA0987654321UVWXYZ'
 
-// ==========================================
-# FILE: server.py (Python)
-// ==========================================
-import os
+# Matches Mailchimp access token (format with spaces to match your regex)
+MAILCHIMP_AUTH = "1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p - us12"
 
-def connect_to_services():
-    # --- SAFE ---
-    pwd = os.getenv("ADMIN_PWD")
-    api_key = fetch_api_key(user_id=123)
-    bearer = request.headers.get("Authorization")
-
-    # --- DANGER ---
-    admin_passwd = 'admin_database_password_2026'
-    bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ"
-
-# ==========================================
-// FILE: certificates.ts (TypeScript)
-// ==========================================
-
-// --- SAFE ---
-import { readFileSync } from 'fs';
-const rsa_key = readFileSync('/path/to/id_rsa', 'utf-8');
-const ec_key = fetchCertificateFromVault('prod-ec-key');
-
-// --- DANGER ---
-const rsa_key_data = "-----BEGIN RSA PRIVATE KEY-----\\nMIIEpQIBAAKCAQEA...\\n-----END RSA PRIVATE KEY-----";
-
-const ec_key_data = `-----BEGIN EC PRIVATE KEY-----
-MHQCAQEEIBx...
------END EC PRIVATE KEY-----`;
-
-const ssh_key_data = "-----BEGIN OPENSSH PRIVATE KEY-----\\nb3BlbnNzaC1rZXktdjEAAAA...\\n-----END OPENSSH PRIVATE KEY-----";
-
-// ==========================================
-# FILE: deploy.sh (Bash / Shell)
-// ==========================================
-
-# --- SAFE ---
-export API_KEY=$CI_PIPELINE_API_KEY
-export AWS_ACCESS_KEY_ID=${AWS_CREDENTIALS}
-export PASSWORD=$1
-
-# --- DANGER ---
-export API_KEY="aB3dE5fG7hI9jK1lM2nO4pQ6rS8tU0v"
-export TOKEN="temp_dev_token_9988776655"
+# Example showing another password format
+db_pwd: "another_secret_password"
